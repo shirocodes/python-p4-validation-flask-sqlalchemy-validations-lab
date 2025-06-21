@@ -34,11 +34,10 @@ class TestAuthor:
             db.session.add(author_a)
             db.session.commit()
             
-            with pytest.raises(ValueError):
-                author_b = Author(name = 'Ben', phone_number = '1231144321')
-                
-            db.session.query(Author).delete()
-            db.session.commit()
+            with pytest.raises(IntegrityError):
+                author_b = Author(name='Ben', phone_number='1231144321')
+                db.session.add(author_b)
+                db.session.commit()
 
     def test_requires_ten_digit_phone_number(self):
         '''requires each phone number to be exactly ten digits.'''
